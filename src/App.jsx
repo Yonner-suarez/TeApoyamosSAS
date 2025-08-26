@@ -1,159 +1,127 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function App() {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       {/* Encabezado */}
-      <header className="bg-dark text-white text-center py-5 shadow">
-        <h1 className="fw-bold">Firma de Abogados Te Apoyamos SAS</h1>
-        <p className="lead">
-          Asesoría legal con trayectoria, confianza y compromiso
-        </p>
+      <header className="bg-dark text-white text-center py-5 shadow w-100">
+        <h1 className="fw-bold">
+          <i className="bi bi-clipboard-data me-2"></i>
+          Análisis del Problema y Herramientas Web
+        </h1>
+        <p className="lead">Actividad - Pasos 4 y 5</p>
       </header>
 
       {/* Cuerpo */}
-      <main className="container my-5">
-        {/* Sobre Nosotros */}
+      <main className="container my-5 flex-grow-1 w-100">
+        {/* Paso 4 */}
         <section className="mb-5">
           <h2 className="mb-4 text-primary border-bottom pb-2">
-            Sobre Nosotros
+            <i className="bi bi-search me-2"></i>
+            Paso 4: Análisis del Problema Propuesto
           </h2>
-          <p className="fs-5 text-muted">
-            Somos un equipo de profesionales especializados en brindar asesoría
-            legal y acompañamiento en la toma de decisiones en entornos
-            profesionales. Nuestro compromiso es ofrecer soluciones jurídicas
-            con respaldo, seguridad y ética profesional.
-          </p>
-        </section>
-
-        {/* Servicios */}
-        <section className="mb-5">
-          <h2 className="mb-4 text-primary border-bottom pb-2">Servicios</h2>
-          <div className="row">
-            <div className="col-md-4 mb-3">
-              <div className="card shadow-sm h-100">
-                <div className="card-body">
-                  <h5 className="card-title">Asesoría Legal</h5>
-                  <p className="card-text">
-                    Brindamos orientación en diversas áreas del derecho para
-                    garantizar decisiones informadas.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 mb-3">
-              <div className="card shadow-sm h-100">
-                <div className="card-body">
-                  <h5 className="card-title">Acompañamiento Jurídico</h5>
-                  <p className="card-text">
-                    Asistimos en procesos legales, asegurando representación y
-                    apoyo profesional.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 mb-3">
-              <div className="card shadow-sm h-100">
-                <div className="card-body">
-                  <h5 className="card-title">Noticias Legales</h5>
-                  <p className="card-text">
-                    Mantente actualizado con novedades y cambios normativos
-                    relevantes.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="card shadow-sm p-4 mb-4">
+            <h5 className="text-secondary">
+              ✅ Requerimientos de la solución web
+            </h5>
+            <ul className="list-group list-group-flush">
+              <li className="list-group-item">
+                Espacio informativo sobre la firma, servicios y noticias
+                legales.
+              </li>
+              <li className="list-group-item">
+                Módulo para registro y evaluación de hojas de vida de
+                profesionales.
+              </li>
+              <li className="list-group-item">
+                Gestión de procesos legales (datos del cliente, tipo de proceso
+                y avances).
+              </li>
+              <li className="list-group-item">
+                Seguridad de la información y respaldo de datos.
+              </li>
+            </ul>
           </div>
         </section>
 
-        {/* Registro de Profesionales */}
+        {/* Paso 5 */}
         <section className="mb-5">
           <h2 className="mb-4 text-primary border-bottom pb-2">
-            Trabaja con Nosotros
+            <i className="bi bi-tools me-2"></i>
+            Paso 5: Herramientas y Frameworks para Desarrollo Web
           </h2>
-          <p className="text-muted">
-            Si deseas unirte a nuestro equipo, registra tu hoja de vida:
-          </p>
-          <form className="p-4 border rounded shadow-sm bg-light">
-            <div className="mb-3">
-              <label htmlFor="nombre" className="form-label fw-semibold">
-                Nombre completo
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="nombre"
-                placeholder="Ingresa tu nombre"
-              />
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <div className="card h-100 shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title">
+                    <i className="bi bi-code-slash me-2"></i>
+                    React.js
+                  </h5>
+                  <p className="card-text">
+                    Librería de JavaScript para construir interfaces
+                    interactivas y dinámicas.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label fw-semibold">
-                Correo electrónico
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="ejemplo@email.com"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="archivo" className="form-label fw-semibold">
-                Hoja de vida (PDF)
-              </label>
-              <input type="file" className="form-control" id="archivo" />
-            </div>
-            <button type="submit" className="btn btn-primary w-100">
-              Enviar
-            </button>
-          </form>
-        </section>
 
-        {/* Gestión de Procesos */}
-        <section className="mb-5">
-          <h2 className="mb-4 text-primary border-bottom pb-2">
-            Gestión de Procesos
-          </h2>
-          <p className="text-muted">
-            En esta sección los abogados pueden registrar la información de los
-            clientes, el tipo de proceso y sus avances, garantizando
-            organización y transparencia.
-          </p>
-          <div className="table-responsive shadow-sm">
-            <table className="table table-hover align-middle">
-              <thead className="table-dark">
-                <tr>
-                  <th>Cliente</th>
-                  <th>Tipo de Proceso</th>
-                  <th>Avances</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Juan Pérez</td>
-                  <td>Laboral</td>
-                  <td>Audiencia inicial realizada</td>
-                </tr>
-                <tr>
-                  <td>María Gómez</td>
-                  <td>Comercial</td>
-                  <td>Contrato en revisión</td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="col-md-6 mb-3">
+              <div className="card h-100 shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title">
+                    <i className="bi bi-layers me-2"></i>
+                    Bootstrap
+                  </h5>
+                  <p className="card-text">
+                    Framework CSS que permite diseño responsive de manera rápida
+                    y sencilla.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-6 mb-3">
+              <div className="card h-100 shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title">
+                    <i className="bi bi-palette me-2"></i>
+                    Tailwind CSS
+                  </h5>
+                  <p className="card-text">
+                    Framework de utilidades CSS que facilita la personalización
+                    del diseño.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-6 mb-3">
+              <div className="card h-100 shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title">
+                    <i className="bi bi-lightning-charge me-2"></i>
+                    Vite
+                  </h5>
+                  <p className="card-text">
+                    Herramienta de desarrollo rápido con React y otros
+                    frameworks.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
 
       {/* Pie de página */}
-      <footer className="bg-dark text-white text-center py-4 mt-auto">
+      <footer className="bg-dark text-white text-center py-4 mt-auto w-100">
         <p className="mb-0">
-          &copy; {new Date().getFullYear()} Te Apoyamos SAS. Todos los derechos
-          reservados.
+          &copy; {new Date().getFullYear()} Actividad Académica - Pasos 4 y 5
+          Yonner Suárez
         </p>
       </footer>
     </div>
