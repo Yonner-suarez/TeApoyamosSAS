@@ -1,100 +1,71 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Laravel</title>
+@section('title', 'Te Apoyamos S.A.S')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+@section('content')
+<div class="flex-center full-height">
+    <div class="content">
+        <div class="title">Te Apoyamos S.A.S</div>
+        <button class="btn-registrate" id="openModalBtn">Regístrate</button>
+    </div>
+</div>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+@include('components.register-modal')
 
-            .full-height {
-                height: 100vh;
-            }
+@push('scripts')
+<script>
+    const modal = document.getElementById('registerModal');
+    const openBtn = document.getElementById('openModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    openBtn.onclick = () => modal.style.display = 'block';
+    closeBtn.onclick = () => modal.style.display = 'none';
+    window.onclick = (event) => {
+        if (event.target === modal) modal.style.display = 'none';
+    };
 
-            .position-ref {
-                position: relative;
-            }
+    document.querySelector('#registerModal form').addEventListener('submit', async function (e) {
+    e.preventDefault(); // evita recargar la página
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+    // Obtener los campos del formulario
+    const nombre = document.getElementById('nombre').value;
+    const correo = document.getElementById('correo').value;
+    const telefono = document.getElementById('telefono').value;
+    const experiencia = document.getElementById('experiencia').value;
+    const hoja_vida = document.getElementById('hoja_vida').files[0];
 
-            .content {
-                text-align: center;
-            }
+    // Crear objeto FormData (para enviar archivos)
+    const formData = new FormData();
+    formData.append('nombre_completo', nombre);
+    formData.append('correo', correo);
+    formData.append('telefono', telefono);
+    formData.append('experiencia', experiencia);
+    formData.append('hoja_vida', hoja_vida);
 
-            .title {
-                font-size: 84px;
-            }
+    try {
+        for (const [key, value] of formData.entries()) {
+    console.log(key, value);
+}
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+        const response = await fetch('http://127.0.0.1:8000/api/solicitud', {
+            method: 'POST',
+            body: formData
+        });
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
+        const result = await response.json();
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
+        if (response.ok) {
+            alert('✅ Solicitud enviada correctamente');
+            console.log(result);
+        } else {
+            alert('❌ Error al enviar la solicitud');
+            console.error(result);
+        }
+    } catch (error) {
+        alert('⚠️ Error de conexión con el servidor');
+        console.error(error);
+    }
+});
+</script>
+@endpush
+@endsection
