@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -32,4 +32,5 @@ class Solicitud extends Model
     protected $attributes = [
         'estado' => 'pendiente',
     ];
+    protected $auditEnabled = false;
 }

@@ -2,7 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\NoticiaController;
+use App\Http\Controllers\EventoController;
+use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\SuscripcionController;
+use App\Http\Controllers\ContactoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +23,5 @@ use App\Http\Controllers\SolicitudController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 
 Route::post('/solicitud', [SolicitudController::class, 'store']);
