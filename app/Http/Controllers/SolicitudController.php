@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Solicitud;
+use App\Models\Solicitud;
 
 class SolicitudController extends Controller
 {

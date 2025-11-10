@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use App\Models\Usuario;
 use App\Models\Caso;
 use App\Models\Solicitud;
-
+use App\Models\Contacto;
 /*
 |--------------------------------------------------------------------------
 | Factory general (estructura antigua)
@@ -27,13 +27,38 @@ class GeneralFactory
     {
         switch ($model) {
             case Usuario::class:
-                return [
-                    'nombre' => $faker->name,
-                    'correo' => $faker->unique()->safeEmail,
-                    'telefono' => $faker->phoneNumber,
-                    'password' => bcrypt('password'),
-                    'rol' => $faker->randomElement(['abogado', 'cliente', 'admin']),
-                ];
+            return [
+                'nombre'       => $faker->name,
+                'correo'       => $faker->unique()->safeEmail,
+                'telefono'     => $faker->phoneNumber,
+                'password'     => bcrypt('password'),
+                'rol'          => $faker->randomElement(['abogado', 'cliente', 'admin']),
+
+                // Campos agregados
+                'especialidad' => $faker->randomElement([
+                    'Derecho Corporativo',
+                    'Derecho Laboral',
+                    'Derecho Tributario',
+                    'Derecho Civil',
+                    'Derecho Penal',
+                    'Derecho Comercial',
+                ]),
+
+                'ubicacion'    => $faker->randomElement([
+                    'Bogotá',
+                    'Medellín',
+                    'Cali',
+                    'Barranquilla',
+                    'Bucaramanga',
+                ]),
+
+                // Foto (URL fake tipo avatar)
+                'foto'         => "https://i.pravatar.cc/300?img=" . $faker->numberBetween(1, 70),
+
+                // Enlace al perfil
+                'perfil_url'   => 'https://www.teapoyamos.com/perfil/' . $faker->unique()->slug,
+            ];
+
 
             case Caso::class:
                 return [
@@ -56,6 +81,14 @@ class GeneralFactory
                     'estado' => $faker->randomElement(['pendiente', 'aprobada', 'rechazada']),
                 ];
 
+            case Contacto::class:
+                 return [
+                    'nombre' => $faker->name,
+                    'correo' => $faker->email,
+                    'telefono' => $faker->phoneNumber,
+                    'asunto' => $faker->sentence,
+                    'mensaje' => $faker->paragraph,
+                ];
             default:
                 return [];
         }

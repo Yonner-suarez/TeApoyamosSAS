@@ -4,7 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Te Apoyamos S.A.S')</title>
+    <link rel="icon" href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+        <text y='.9em' font-size='90'>⚖️</text>
+    </svg>">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         html, body {
@@ -101,66 +107,103 @@
         }
     </style>
     @stack('styles')
-    @include('components.navbar')
 
 </head>
 <body>
+  @if(request()->is('administracion*'))
+        @include('components.modulo-admin.navbar-admin')
+    @else
+        @include('components.navbar')
+    @endif
     @yield('content')
 
-    @stack('scripts')
-    <script>
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // --- MODAL ---
     const modal = document.getElementById('registerModal');
     const openBtn = document.getElementById('openModalBtn');
     const closeBtn = document.getElementById('closeModalBtn');
 
-    openBtn.onclick = () => modal.style.display = 'block';
-    closeBtn.onclick = () => modal.style.display = 'none';
-    window.onclick = (event) => {
-        if (event.target === modal) modal.style.display = 'none';
-    };
-
-    document.querySelector('#registerModal form').addEventListener('submit', async function (e) {
-    e.preventDefault(); // evita recargar la página
-
-    // Obtener los campos del formulario
-    const nombre = document.getElementById('nombre').value;
-    const correo = document.getElementById('correo').value;
-    const telefono = document.getElementById('telefono').value;
-    const experiencia = document.getElementById('experiencia').value;
-    const hoja_vida = document.getElementById('hoja_vida').files[0];
-
-    // Crear objeto FormData (para enviar archivos)
-    const formData = new FormData();
-    formData.append('nombre_completo', nombre);
-    formData.append('correo', correo);
-    formData.append('telefono', telefono);
-    formData.append('experiencia', experiencia);
-    formData.append('hoja_vida', hoja_vida);
-
-    try {
-        for (const [key, value] of formData.entries()) {
-    console.log(key, value);
-}
-
-        const response = await fetch('http://127.0.0.1:8000/api/solicitud', {
-            method: 'POST',
-            body: formData
+    if (openBtn && closeBtn && modal) {
+        // abrir modal
+        openBtn.addEventListener('click', () => {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
         });
 
-        const result = await response.json();
+        // cerrar modal
+        closeBtn.addEventListener('click', () => {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        });
 
-        if (response.ok) {
-            alert('✅ Solicitud enviada correctamente');
-            console.log(result);
-        } else {
-            alert('❌ Error al enviar la solicitud');
-            console.error(result);
-        }
-    } catch (error) {
-        alert('⚠️ Error de conexión con el servidor');
-        console.error(error);
+        // cerrar clic afuera
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+    }
+
+    // --- FORMULARIO ---
+    const form = modal.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const correo = document.getElementById('correo').value;
+            const telefono = document.getElementById('telefono').value;
+            const experiencia = document.getElementById('experiencia').value;
+            const hoja_vida = document.getElementById('hoja_vida').files[0];
+
+            const formData = new FormData();
+            formData.append('nombre_completo', nombre);
+            formData.append('correo', correo);
+            formData.append('telefono', telefono);
+            formData.append('experiencia', experiencia);
+            formData.append('hoja_vida', hoja_vida);
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/solicitud', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Solicitud enviada!',
+                        text: 'Tu hoja de vida ha sido enviada correctamente.',
+                        confirmButtonColor: '#0066cc'
+                    });
+                    form.reset();
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudo enviar la solicitud. Intenta nuevamente.',
+                        confirmButtonColor: '#0066cc'
+                    });
+                    console.error(result);
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error de conexión',
+                    text: 'No se pudo conectar con el servidor.',
+                    confirmButtonColor: '#0066cc'
+                });
+                console.error(error);
+            }
+        });
     }
 });
 </script>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html>

@@ -17,6 +17,10 @@ class Usuario extends Authenticatable
         'telefono',
         'password',
         'rol', // abogado, cliente, admin
+        'especialidad',   // NUEVO
+        'ubicacion',      // NUEVO
+        'foto',           // NUEVO
+        'perfil_url',     
     ];
 
     protected $hidden = ['password'];
